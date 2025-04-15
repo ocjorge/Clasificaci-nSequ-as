@@ -92,6 +92,7 @@ nuevos_datos = np.array([[...]])  # Insertar valores para las 27 característica
 # Preprocesar
 nuevos_datos_scaled = scaler.transform(nuevos_datos)
 
+
 # Predecir
 prediccion = model.predict(nuevos_datos_scaled)
 clase_predicha = label_encoder.inverse_transform([np.argmax(prediccion[0])])[0]
