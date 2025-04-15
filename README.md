@@ -1,5 +1,12 @@
 # Modelo de Clasificación de Sequías
 
+[![Python](https://img.shields.io/badge/Python-3.7+-blue.svg)](https://www.python.org/downloads/)
+[![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange.svg)](https://www.tensorflow.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Maintenance](https://img.shields.io/badge/Maintained-Yes-brightgreen.svg)](https://github.com/yourusername/repo)
+[![Documentation](https://img.shields.io/badge/Docs-Passing-success.svg)](https://github.com/yourusername/repo)
+[![Issues](https://img.shields.io/github/issues/yourusername/repo.svg)](https://github.com/yourusername/repo/issues)
+
 Este proyecto implementa un modelo de red neuronal para clasificar niveles de sequía basado en datos históricos y características hidrológicas. El sistema está diseñado para manejar datasets desbalanceados donde ciertas categorías de sequía son más frecuentes que otras.
 
 ## 📋 Tabla de Contenidos
@@ -92,9 +99,74 @@ nuevos_datos = np.array([[...]])  # Insertar valores para las 27 característica
 # Preprocesar
 nuevos_datos_scaled = scaler.transform(nuevos_datos)
 
-
 # Predecir
 prediccion = model.predict(nuevos_datos_scaled)
 clase_predicha = label_encoder.inverse_transform([np.argmax(prediccion[0])])[0]
 print(f"Clase predicha: {clase_predicha}")
-print(f"Probabilidades: {
+print(f"Probabilidades: {prediccion[0]}")
+```
+
+## 🧮 Metodología
+
+El proyecto utiliza las siguientes técnicas para obtener un modelo robusto:
+
+1. **Preprocesamiento**:
+   - Normalización de variables con StandardScaler
+   - Codificación de la variable objetivo mediante LabelEncoder
+
+2. **Manejo del desbalance**:
+   - Técnica SMOTE para generar muestras sintéticas de clases minoritarias
+   - Ponderación de clases inversamente proporcional a su frecuencia
+
+3. **Arquitectura del modelo**:
+   - Red neuronal feed-forward con 3 capas ocultas
+   - Regularización L2 para evitar sobreajuste
+   - Dropout para mejorar generalización
+   - Función de activación softmax para clasificación multiclase
+
+4. **Estrategia de entrenamiento**:
+   - Validación cruzada estratificada (5-fold)
+   - Early stopping para detener entrenamiento cuando no hay mejoras
+   - Reducción adaptativa del learning rate
+   - Batch size pequeño (16) adecuado para dataset pequeño
+
+## 📈 Resultados
+
+El modelo genera:
+
+- Informe de clasificación con precision, recall y F1-score para cada clase
+- Matriz de confusión visualizada
+- Gráficos de la evolución de accuracy y loss durante el entrenamiento
+- Modelo guardado en formato .h5 para uso futuro
+- Archivos auxiliares (scaler.pkl y label_encoder.pkl) para preprocesar nuevos datos
+
+## ⚙️ Personalización
+
+Puedes modificar varios aspectos del modelo:
+
+1. **Arquitectura de la red**:
+   - Ajustar número de capas y neuronas en `create_model()`
+   - Modificar tasa de dropout o factor de regularización L2
+
+2. **Hiperparámetros**:
+   - Cambiar batch_size, epochs, learning_rate
+   - Ajustar los parámetros de early_stopping y reduce_lr
+
+3. **Balanceo**:
+   - Modificar parámetros de SMOTE
+   - Ajustar manualmente los class_weights
+
+4. **Selección de características**:
+   - Implementar métodos de selección como PCA, RFE o feature importance
+
+## 📞 Contacto
+
+Para consultas o soporte relacionado con este modelo:
+
+- [Tu nombre/organización]
+- [Tu email/contacto]
+- [Enlaces relevantes]
+
+---
+
+*Nota: Este modelo está diseñado para propósitos educativos y de investigación. Para aplicaciones operativas en gestión hídrica real, debe ser validado por expertos en hidrología y adaptado a las condiciones locales específicas.*
